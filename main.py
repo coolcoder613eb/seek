@@ -169,7 +169,7 @@ class AfikomanHunt(Game):
                         desc="The plaque reads:\n"
                         + "Credits:\n"
                         + "Game: coolcoder613(Elozor Bruce)\n"
-                        + "Haiku-PyAPI": "coolcoder613 & ZardShard",
+                        + "Haiku-PyAPI: coolcoder613 & ZardShard",
                     ),
                 ],
                 places=[self.doors[7]],
@@ -236,59 +236,6 @@ class AfikomanHunt(Game):
         self.show("You take the key.", "Take Key")
         self.doors[1].locked = False
 
-    def is_in_menu(self, menu, name):
-        last = menu.index(tk.END)
-        last = last if last != None else 0
-        for x in range(last + 1):
-            if menu.entrycget(x, "label") == name:
-                return True
-        return False
-
-    def gen_menus(self, thing, new=False):
-        # current_place = self.places[self.first]
-        if new:
-            self.open_menu.delete(0, "end")
-            self.look_at_menu.delete(0, "end")
-            self.take_menu.delete(0, "end")
-        if thing in self.places:
-            if thing.desc and not self.is_in_menu(self.look_at_menu, "Surroundings"):
-                self.look_at_menu.add_command(
-                    label="Surroundings",
-                    command=lambda item=thing: self.look_at(item, surr=True),
-                )
-
-        if thing.items:
-            for item in thing.items:
-                if (
-                    isinstance(item, Thing)
-                    and item.moveable
-                    and not self.is_in_menu(self.take_menu, item.name)
-                ):
-                    self.take_menu.add_command(
-                        label=item.name,
-                        command=lambda item=item: self.take_item(item, thing),
-                    )
-                if (item.desc or item.items) and not self.is_in_menu(
-                    self.look_at_menu, item.name
-                ):
-                    self.look_at_menu.add_command(
-                        label=item.name, command=lambda item=item: self.look_at(item)
-                    )
-                # if self.menu.index("end") != 0:
-                #    self.menu_frame.add_cascade(label=item.name, menu=self.menu)
-        if thing.places:
-            for place in thing.places:
-                if not self.is_in_menu(self.open_menu, place.name):
-                    self.open_menu.add_command(
-                        label=place.name,
-                        command=lambda door=place: self.open_door(door),
-                    )
-                if place.desc and not self.is_in_menu(self.look_at_menu, place.name):
-                    self.look_at_menu.add_command(
-                        label=place.name, command=lambda item=place: self.look_at(item)
-                    )
-
-
 if __name__ == "__main__":
-    game = Game()
+    game = AfikomanHunt()
     game.Run()
